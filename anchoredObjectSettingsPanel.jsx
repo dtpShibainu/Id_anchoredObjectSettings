@@ -10,12 +10,13 @@ app.scriptPreferences.userInteractionLevel = UserInteractionLevels.INTERACT_WITH
     }
 
 function mm2pt(mm){
-    return parseFloat(mm) * 1; // mm → pt * 2.834645669
+    return parseFloat(mm) * 1; // mm  ptの場合は * 2.834645669
 }
 
     // ===== パネル作成 =====
     var dlg = new Window("palette", "アンカー付きオブジェクトオプション");
     dlg.alignChildren = "fill";
+    dlg.opacity = 0.95;
 
     // 親文字からの間隔
     var posGroup = dlg.add("panel", undefined, "親文字からの間隔");
@@ -91,32 +92,34 @@ function mm2pt(mm){
         }
     }
 
-// ===== アンカー付き位置の基準点 =====
-var alignGroup = dlg.add("panel", undefined, "揃え");
-alignGroup.orientation = "row";
+  // ===== アンカー付き位置の基準点 =====
+    var alignGroup = dlg.add("panel", undefined, "揃え");
+    alignGroup.orientation = "row";
+    alignGroup.alignChildren = "left";
 
-// 水平揃え
-var hAlignDropdown = alignGroup.add("dropdownlist", undefined, [
-    "左揃え",
-    "中央揃え",
-    "中央揃え",
-    "テキスト揃え"
-]);
-hAlignDropdown.selection = 1; // デフォルト中央
+    // 水平揃え
+    var hAlignDropdown = alignGroup.add("dropdownlist", undefined, [
+        "左揃え",
+        "中央揃え",
+        "右揃え",
+        "テキスト揃え"
+    ]);
+    hAlignDropdown.selection = 1; // デフォルト中央
 
-// 垂直揃え
-var vAlignDropdown = alignGroup.add("dropdownlist", undefined, [
-    "上揃え",
-    "中央揃え",
-    "下揃え"
-]);
-vAlignDropdown.selection = 1; // デフォルト中央
+    // 垂直揃え
+    var vAlignDropdown = alignGroup.add("dropdownlist", undefined, [
+        "上揃え",
+        "中央揃え",
+        "下揃え"
+    ]);
+    vAlignDropdown.selection = 1; // デフォルト中央
 
     // ===== X/Y基準 =====
     var xGroup = dlg.add("panel", undefined, "X 基準 / オフセット");
-    var xRow = xGroup.add("group");
-    xRow.add("statictext", undefined, "X 基準：");
-    var xDropdown = xRow.add("dropdownlist", undefined, [
+    xGroup.alignChildren = "left";
+    var xRow1 = xGroup.add("group");
+    xRow1.add("statictext", undefined, "X 基準：");
+    var xDropdown = xRow1.add("dropdownlist", undefined, [
         "アンカーマーカー",
         "段枠",
         "テキストフレーム",
@@ -124,14 +127,18 @@ vAlignDropdown.selection = 1; // デフォルト中央
         "ページ枠"
     ]);
     xDropdown.selection=0;
-    xRow.add("statictext", undefined, "X オフセット（mm）：");
-    var xOffset = xRow.add("edittext", undefined, "0");
+
+    // 改行してからオフセット
+    var xRow2 = xGroup.add("group");
+    xRow2.add("statictext", undefined, "X オフセット（mm）：");
+    var xOffset = xRow2.add("edittext", undefined, "0");
     xOffset.characters=5;
 
     var yGroup = dlg.add("panel", undefined, "Y 基準 / オフセット");
-    var yRow = yGroup.add("group");
-    yRow.add("statictext", undefined, "Y 基準：");
-    var yDropdown = yRow.add("dropdownlist", undefined, [
+    yGroup.alignChildren = "left";
+    var yRow1 = yGroup.add("group");
+    yRow1.add("statictext", undefined, "Y 基準：");
+    var yDropdown = yRow1.add("dropdownlist", undefined, [
         "行（ベースライン）",
         "行（キャップハイト）",
         "仮想ボディの上",
@@ -144,12 +151,16 @@ vAlignDropdown.selection = 1; // デフォルト中央
         "ページ枠"
     ]);
     yDropdown.selection=0;
-    yRow.add("statictext", undefined, "Y オフセット（mm）：");
-    var yOffset = yRow.add("edittext", undefined, "0");
+
+    // 改行してからオフセット
+    var yRow2 = yGroup.add("group");
+    yRow2.add("statictext", undefined, "Y オフセット（mm）：");
+    var yOffset = yRow2.add("edittext", undefined, "0");
     yOffset.characters=5;
 
     // ===== オプション =====
     var optGroup = dlg.add("panel", undefined, "オプション");
+    optGroup.alignChildren = "left";
     var fitBoundsCheck = optGroup.add("checkbox", undefined, "段の上下境界内に収める");
     fitBoundsCheck.value=true;
     var preventManualCheck = optGroup.add("checkbox", undefined, "手動配置を防ぐ");
